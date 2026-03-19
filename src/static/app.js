@@ -861,6 +861,34 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeRangeFilter,
   };
 
+  // Theme toggle functionality
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+      themeIcon.textContent = "☀️";
+      themeToggle.setAttribute("aria-label", "Switch to light mode");
+      themeToggle.setAttribute("title", "Switch to light mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+      themeIcon.textContent = "🌙";
+      themeToggle.setAttribute("aria-label", "Switch to dark mode");
+      themeToggle.setAttribute("title", "Switch to dark mode");
+    }
+  }
+
+  // Load saved theme preference, defaulting to light
+  const savedTheme = localStorage.getItem("theme");
+  applyTheme(savedTheme === "dark");
+
+  themeToggle.addEventListener("click", () => {
+    const isDark = !document.body.classList.contains("dark-mode");
+    applyTheme(isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+
   // Initialize app
   checkAuthentication();
   initializeFilters();
